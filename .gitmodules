@@ -1,0 +1,3 @@
+[submodule "debootstrap"]
+	path = debootstrap
+	url = https://github.com/pipcet/debootstrap
