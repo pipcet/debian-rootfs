@@ -1,0 +1,14 @@
+* debian-rootfs
+** What
+
+Bake a cross-architecture Debian rootfs using qemu and debootstrap. That's it.
+
+** Why
+
+To install Debian on Apple M1 machines for [[https://github.com/pipcet/pearl][pearl]], I need to build a slightly modified Debian installer.
+
+The Debian installer needs to be built on a system of the same architecture as the one it will install to. To get this working in GitHub's CI/CD, I use qemu, but I want to avoid redundancy, so I'd prefer to build a root file system once, in one repo, and build the installer once, in another repo, using the generic root file system. Plus, who knows, it might come in handy.
+
+** /init
+
+The root file system uses a special init script, not systemd. That init script simply uudecodes =/dev/vda=, runs the script produced, uuencodes the output, and writes it back to =/dev/vda=. This means daemons and such aren't running during the build process, but they're usually not needed.
