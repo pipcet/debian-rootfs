@@ -59,7 +59,7 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "mknod /dev/vda b 254 0"; \
 	echo "dhclient -v eth0"; \
 	echo "mv /init2 /init"; \
-	echo "find / --one-file-system | cpio -H newc -o | uuencode 'root1.cpio' > /dev/vda"; \
+	echo "find -xdev / | cpio -H newc -o | uuencode 'root1.cpio' > /dev/vda"; \
 	echo "sync"; \
 	echo "poweroff -f") | sudo tee $(BUILD)/debian/di-debootstrap/init
 	(echo '#!/bin/bash -x'; \
