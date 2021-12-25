@@ -71,7 +71,6 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	(echo '#!/bin/bash -x'; \
 	echo "export PATH"; \
 	echo "/bin/busybox mount -t proc proc proc"; \
-	echo "depmod -a"; \
 	echo "modprobe virtio"; \
 	echo "modprobe virtio_pci"; \
 	echo "modprobe virtio_net"; \
