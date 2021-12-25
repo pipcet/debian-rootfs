@@ -6,7 +6,7 @@ $(BUILD)/debian/deb/%.deb: $(BUILD)/debian/deb/Packages deb.pl | $(BUILD)/debian
 	curl http://http.us.debian.org/debian/$(shell perl deb.pl "$*" < $<) > $@
 
 $(BUILD)/debian/deb/linux-image.deb: $(BUILD)/debian/deb/Packages deb.pl | $(BUILD)/debian/deb/
-	FILE=$$(egrep '^Package: linux-image-(.*)-cloud-arm64-unsigned' < $< | while read DUMMY PACKAGE; do echo $$PACKAGE; done).deb; $(MAKE) $$FILE; ln -sf $$FILE $@
+	FILE=$$(egrep '^Package: linux-image-(.*)-cloud-arm64-unsigned' < $< | while read DUMMY PACKAGE; do echo $$PACKAGE; done).deb; $(MAKE) debian/deb/$$FILE; ln -sf $$FILE $@
 
 $(BUILD)/qemu-kernel: $(BUILD)/debian/deb/linux-image.deb
 	$(MKDIR) $(BUILD)/kernel
