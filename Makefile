@@ -1,5 +1,3 @@
-include g/github/github.mk
-
 all:
 
 CROSS_COMPILE ?= aarch64-linux-gnu-
@@ -41,6 +39,7 @@ build/%: $(PWD)/build/%
 
 include deb.mk
 include debootstrap.mk
+include g/github/github.mk
 
 $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	sudo rm -rf $(BUILD)/debian/di-debootstrap
@@ -86,6 +85,6 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 
 $(BUILD)/debian/root1.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root0.cpio | $(BUILD)/
 	dd if=/dev/zero of=tmp bs=1G count=1
-	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd ./build/debian/di-debootstrap.cpio -nic user,model=virtio -monitor none -smp 8 -nographic
+	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd $(BUILD)/debian/root0.cpio -nic user,model=virtio -monitor none -smp 8 -nographic
 	uudecode -o $@ < tmp
 	rm -f tmp
