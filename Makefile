@@ -35,6 +35,9 @@ build/%: $(PWD)/build/%
 %.zstd: %
 	zstd -cv < $< > $@
 
+%.gz: %
+	gzip < $< > $@
+
 .PHONY: %}
 
 include deb.mk
