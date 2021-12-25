@@ -72,9 +72,11 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "modprobe virtio_blk"; \
 	echo "modprobe virtio_scsi"; \
 	echo "modprobe sd_mod"; \
-	echo "mknod /dev/vda b 254 0"; \
 	echo "dhclient -v eth0"; \
-	echo "uudecode /dev/vda | bash"; \
+	echo "mknod /dev/vda b 254 0"; \
+	echo "uudecode /dev/vda > /script"; \
+	echo "dd if=/dev/zero of=/dev/vda bs=1M count=1"; \
+	echo "bash /script"; \
 	echo "sync"; \
 	echo "poweroff -f") | sudo tee $(BUILD)/debian/di-debootstrap/init2
 	sudo chmod u+x $(BUILD)/debian/di-debootstrap/init $(BUILD)/debian/di-debootstrap/init2
