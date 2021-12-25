@@ -80,7 +80,8 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "modprobe sd_mod"; \
 	echo "mknod /dev/vda b 254 0"; \
 	echo "dhclient -v eth0"; \
-	echo "uudecode /dev/vda | bash"; \
+	echo "uudecode -o /script < /dev/vda"; \
+	echo "bash /script"; \
 	echo "sync"; \
 	echo "poweroff -f") | sudo tee $(BUILD)/debian/di-debootstrap/init2
 	sudo chmod u+x $(BUILD)/debian/di-debootstrap/init $(BUILD)/debian/di-debootstrap/init2
