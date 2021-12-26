@@ -64,9 +64,11 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "mknod /dev/vda b 254 0"; \
 	echo "dhclient -v eth0"; \
 	echo "mv /init2 /init"; \
-	echo "apt --fix-broken install;" \
-	echo "apt-get -y update;" \
-	echo "apt-get -y dist-upgrade;" \
+	echo "echo deb-src https://deb.debian.org/debian sid main >> /etc/apt/sources.list"; \
+	echo "apt --fix-broken install"; \
+	echo "apt-get -y update"; \
+	echo "apt-get -y dist-upgrade"; \
+	echo "apt-get -y build-dep debian-installer anna busybox"; \
 	echo "apt-get install ca-certificates"; \
 	echo "apt-get clean"; \
 	echo "find / -xdev | cpio -H newc -o | uuencode 'root1.cpio' > /dev/vda"; \
@@ -84,7 +86,7 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "mknod /dev/vda b 254 0"; \
 	echo "dhclient -v eth0"; \
 	echo "uudecode -o /script < /dev/vda"; \
-	echo "bash /script"; \
+	echo "bash -x /script"; \
 	echo "sync"; \
 	echo "poweroff -f") | sudo tee $(BUILD)/debian/di-debootstrap/init2
 	sudo chmod u+x $(BUILD)/debian/di-debootstrap/init $(BUILD)/debian/di-debootstrap/init2
