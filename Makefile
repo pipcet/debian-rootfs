@@ -96,7 +96,7 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	(cd $(BUILD)/debian/di-debootstrap; sudo chown root.root .; sudo find . | sudo cpio -H newc -o) > $@
 
 $(BUILD)/debian/root1.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root0.cpio | $(BUILD)/
-	dd if=/dev/zero of=tmp bs=1G count=1
+	dd if=/dev/zero of=tmp bs=1G count=2
 	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd $(BUILD)/debian/root0.cpio -nic user,model=virtio -monitor none -smp 8 -nographic
 	uudecode -o $@ < tmp
 	rm -f tmp
