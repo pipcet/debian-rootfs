@@ -65,7 +65,7 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "dhclient -v eth0"; \
 	echo "mv /init2 /init"; \
 	echo "echo deb-src https://deb.debian.org/debian sid main >> /etc/apt/sources.list"; \
-	echo "apt --fix-broken install"; \
+	echo "apt -y --fix-broken install"; \
 	echo "apt-get -y update"; \
 	echo "apt-get -y dist-upgrade"; \
 	echo "apt-get -y build-dep debian-installer anna busybox"; \
