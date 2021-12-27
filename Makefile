@@ -70,6 +70,9 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "apt-get -y dist-upgrade"; \
 	echo "apt-get -y build-dep debian-installer anna busybox"; \
 	echo "apt-get install ca-certificates"; \
+	echo "apt-get install man-db"; \
+	echo "ln -sf /usr/bin/true /usr/sbin/update-initramfs"; \
+	echo "ln -sf /usr/bin/true /usr/bin/mandb"; \
 	echo "apt-get clean"; \
 	echo "find / -xdev | cpio -H newc -o | uuencode 'root1.cpio' > /dev/vda"; \
 	echo "sync"; \
