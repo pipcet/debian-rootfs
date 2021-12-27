@@ -114,9 +114,11 @@ $(BUILD)/debian/root2-script.bash: | $(BUILD)/debian/
 	echo "apt-get -y install ca-certificates"; \
 	echo "apt-get -y build-dep debian-installer partman-auto busybox udpkg"; \
 	echo "apt-get -y clean"; \
-	echo "cd /; find / -xdev | cpio -H newc -i | uuencode root2.cpio > /dev/vda") > $@
+	echo "cd /; find / -xdev | cpio -H newc -o | uuencode root2.cpio > /dev/vda") > $@
 
-$(BUILD)/debian/root2.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root1.cpio $(BUILD)/debian/root2-script.bash | $(BUILD)/
+$(BUILD)/debian/root2.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root1.cpio.gz $(BUILD)/debian/root2-script.bash | $(BUILD)/
 	dd if=/dev/zero of=tmp bs=1G count=2
 	uuencode script.bash < $(BUILD)/debian/root2-script.bash | dd of=tmp conv=notrunc
-	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd $(BUILD)/debian/root1.cpio -nic user,model=virtio -monitor none -nographic
+	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd $(BUILD)/debian/root1.cpio.gz -nic user,model=virtio -monitor none -nographic
+	uudecode -o $@ < tmp
+	rm -f tmp
