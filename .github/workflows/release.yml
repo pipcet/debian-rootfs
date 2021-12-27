@@ -14,14 +14,7 @@ jobs:
       with:
         submodules: recursive
     - run: sudo apt-get update
-    - run: sudo apt-get install autopoint
-    - run: sudo apt-get install lzop
-    - run: sudo apt-get install libipc-run-perl libfile-slurp-perl
-    - run: sudo apt-get install qemu-user qemu-user-static binfmt-support
-    - run: sudo apt-get install gettext
-    - run: sudo apt-get install xz-utils
-    - run: sudo apt-get install libtool-bin
-    - run: sudo apt-get install qemu-system-aarch64 sharutils
+    - run: sudo apt-get install autopoint lzop libipc-run-perl libfile-slurp-perl qemu-user qemu-user-static binfmt-support gettext xz-utils libtool-bin qemu-system-aarch64 sharutils
     - name: Set env variables
       uses: ./g/github/env/
     - run: echo 1 | sudo tee /proc/sys/vm/overcommit_memory
