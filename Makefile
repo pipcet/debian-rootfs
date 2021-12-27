@@ -69,11 +69,11 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	echo "apt-get -y update"; \
 	echo "apt-get -y dist-upgrade"; \
 	echo "apt-get -y build-dep debian-installer anna busybox"; \
-	echo "apt-get install ca-certificates"; \
-	echo "apt-get install man-db"; \
+	echo "apt-get -y install ca-certificates"; \
+	echo "apt-get -y install man-db"; \
 	echo "ln -sf /usr/bin/true /usr/sbin/update-initramfs"; \
 	echo "ln -sf /usr/bin/true /usr/bin/mandb"; \
-	echo "apt-get clean"; \
+	echo "apt-get -y clean"; \
 	echo "find / -xdev | cpio -H newc -o | uuencode 'root1.cpio' > /dev/vda"; \
 	echo "sync"; \
 	echo "poweroff -f") | sudo tee $(BUILD)/debian/di-debootstrap/init
@@ -111,9 +111,9 @@ $(BUILD)/debian/root2-script.bash: | $(BUILD)/debian/
 	echo "apt-get -y install man-db"; \
 	echo "ln -sf /usr/bin/true /usr/bin/mandb"; \
 	echo "apt-get -y install ca-certificates"; \
-	echo "apt-get install ca-certificates"; \
-	echo "apt-get build-dep debian-installer partman-auto busybox udpkg"; \
-	echo "apt-get clean"; \
+	echo "apt-get -y install ca-certificates"; \
+	echo "apt-get -y build-dep debian-installer partman-auto busybox udpkg"; \
+	echo "apt-get -y clean"; \
 	echo "cd /; find / -xdev | cpio -H newc -i | uuencode root2.cpio > /dev/vda") > $@
 
 $(BUILD)/debian/root2.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root1.cpio $(BUILD)/debian/root2-script.bash | $(BUILD)/
