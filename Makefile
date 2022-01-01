@@ -6,7 +6,6 @@ CP ?= cp
 CAT ?= cat
 TAR ?= tar
 PWD = $(shell pwd)
-SUDO ?= $(and $(filter pip,$(shell whoami)),sudo)
 NATIVE_TRIPLE ?= amd64-linux-gnu
 BUILD ?= $(PWD)/build
 CROSS_CFLAGS = -Os --sysroot=$(BUILD)/pearl/install -B$(BUILD)/pearl/install -L$(BUILD)/pearl/install/lib -I$(BUILD)/pearl/install/include
