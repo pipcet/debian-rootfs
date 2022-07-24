@@ -95,7 +95,7 @@ $(BUILD)/debian/root0.cpio: | $(BUILD)/debian/
 	(cd $(BUILD)/debian/di-debootstrap; sudo chown root.root .; sudo find . | sudo cpio -H newc -o) > $@
 
 $(BUILD)/debian/root1.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root0.cpio | $(BUILD)/
-	dd if=/dev/zero of=tmp bs=1G count=2
+	dd if=/dev/zero of=tmp bs=1G count=3
 	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd $(BUILD)/debian/root0.cpio -nic user,model=virtio -monitor none -smp 8 -nographic
 	uudecode -o $@ < tmp
 	rm -f tmp
@@ -116,7 +116,7 @@ $(BUILD)/debian/root2-script.bash: | $(BUILD)/debian/
 	echo "cd /; find / -xdev | cpio -H newc -o | uuencode root2.cpio > /dev/vda") > $@
 
 $(BUILD)/debian/root2.cpio: $(BUILD)/qemu-kernel $(BUILD)/debian/root1.cpio.gz $(BUILD)/debian/root2-script.bash | $(BUILD)/
-	dd if=/dev/zero of=tmp bs=1G count=2
+	dd if=/dev/zero of=tmp bs=1G count=3
 	uuencode script.bash < $(BUILD)/debian/root2-script.bash | dd of=tmp conv=notrunc
 	qemu-system-aarch64 -drive if=virtio,index=0,media=disk,driver=raw,file=tmp -machine virt -cpu max -kernel $(BUILD)/qemu-kernel -m 7g -serial stdio -initrd $(BUILD)/debian/root1.cpio.gz -nic user,model=virtio -monitor none -nographic
 	uudecode -o $@ < tmp
